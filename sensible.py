@@ -1,5 +1,8 @@
 #! /usr/bin/env python3
 
+# Copyright 2019, 2023 Lassi Kortela
+# SPDX-License-Identifier: MIT
+
 import argparse
 import configparser
 import os
