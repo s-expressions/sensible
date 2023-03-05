@@ -157,12 +157,13 @@ class Sensible:
         name = str(symbol)
         m = self.mangled.get(name)
         if not m:
+            mangled_set = set(self.mangled.values())
             base = ""
             for ch in name:
                 base += mangle_char(ch)
             i = 1
             m = base
-            while m in self.mangled:
+            while m in mangled_set:
                 i += 1
                 m = "{}_{}".format(base, i)
             self.mangled[name] = m
