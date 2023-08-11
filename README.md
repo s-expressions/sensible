@@ -30,3 +30,21 @@ current directory.
 
 The command `sensible foo.pose -o foo` will generate them into a
 subdirectory `foo`.
+
+## Rationale
+
+Sensible is intentionally "dumb": it supports only a very limited
+S-expression surface syntax ([POSE -- Portable
+S-expressions](https://github.com/s-expressions/pose)) and does not
+have its own programming language (Scheme or Lisp dialect). If it were
+to have its own syntax and Lisp dialect, people would never agree on
+which one. Some would want Scheme, some Common Lisp, and some Clojure.
+And even if that question was settled, people would not agree on which
+language subset and extensions to offer.
+
+It's easy to use any existing Lisp dialect and implementation to
+generate S-expressions suitable for Sensible, and this is what people
+should do.
+
+Sensible itself is written in Python since everyone who has Ansible
+will also have Python. An earlier prototype was written in Scheme.
