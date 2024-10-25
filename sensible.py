@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# Copyright 2019, 2023 Lassi Kortela
+# Copyright 2019, 2023, 2024 Lassi Kortela
 # SPDX-License-Identifier: MIT
 
 import argparse
@@ -264,20 +264,23 @@ class Sensible:
         if handlers:
             self.generate_role_subdirectory(handlers_dir, handlers, "handler")
 
+    def generate_play_yaml(self, play):
+        play = dehead("play", play)
+        return {
+            "name": self.mangle(simple_property(play, "name", Symbol)),
+            "hosts": [self.mangle(host) for host in complex_property(play, "hosts")],
+            "become": simple_property(play, "become", bool),
+            "roles": [self.mangle(role) for role in complex_property(play, "roles")],
+        }
+
     def generate_playbook_yaml(self, playbook):
         playbook = dehead("playbook", playbook)
+        filename = simple_property(playbook, "name", str)
         self.write_yaml_file(
-            self.mangle(simple_property(playbook, "name", Symbol)),
+            filename,
             [
-                {
-                    "hosts": [
-                        self.mangle(x) for x in complex_property(playbook, "hosts")
-                    ],
-                    "become": simple_property(playbook, "become", bool),
-                    "roles": [
-                        self.mangle(x) for x in complex_property(playbook, "roles")
-                    ],
-                }
+                self.generate_play_yaml(play)
+                for play in complex_property(playbook, "plays")
             ],
         )
 
